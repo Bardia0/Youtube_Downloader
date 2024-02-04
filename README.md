@@ -13,15 +13,15 @@ A simple command-line tool to download YouTube videos or entire playlists.
    git clone https://github.com/Bardia0/Youtube_Downloader.git
    cd Youtube_Downloader
    ```
-##How to download a single YouTube video
+## How to download a single YouTube video
 ```bash
 python3 youtube_downloader.py --quality 720 <youtube-video-url>
 ```
-##How to download an entire YouTube playlist
+## How to download an entire YouTube playlist
 ```bash
 python3 youtube_downloader.py --playlist <youtube-playlist-url>
 ```
-##For more information to use command
+## For more information to use command
 use help option as below
 ```bash
 python3 youtube_downloader.py --help
