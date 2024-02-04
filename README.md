@@ -5,7 +5,8 @@ A simple command-line tool to download YouTube videos or entire playlists.
 ## Prerequisites
 
 - Python 3
-- pytube 
+- pytube
+  
   ```bash
   pip install pytube```
 
