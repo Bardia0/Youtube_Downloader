@@ -10,7 +10,7 @@ def download_video(url, quality=None, playlist=False):
             videos = list(yt.streams.filter(file_extension='mp4'))
         else:
             print("Downloading single video...")
-            videos = list(yt.streams.filter(res=quality, file_extension='mp4'))
+            videos = list(filter(lambda stream: stream.resolution == quality, yt.streams.filter(file_extension='mp4')))
 
         if not videos:
             print(f"No {'playlist' if playlist else quality+'p'} video available for {url}")
@@ -20,6 +20,10 @@ def download_video(url, quality=None, playlist=False):
             print(f"Downloading: {video.title}...")
             video.download()
             print("Download complete!")
+
+            # Exit the loop in single video mode
+            if not playlist:
+                break
 
     except Exception as e:
         print(f"An error occurred: {e}")
