@@ -2,23 +2,27 @@ import argparse
 import pytube
 
 def download_video(url, quality=None, playlist=False):
-    yt = pytube.YouTube(url)
+    try:
+        yt = pytube.YouTube(url)
 
-    if playlist:
-        print("Downloading entire playlist...")
-        videos = yt.streams.filter(file_extension='mp4').all()
-    else:
-        print("Downloading single video...")
-        videos = yt.streams.filter(res=quality, file_extension='mp4').all()
+        if playlist:
+            print("Downloading entire playlist...")
+            videos = yt.streams.filter(file_extension='mp4').all()
+        else:
+            print("Downloading single video...")
+            videos = yt.streams.filter(res=quality, file_extension='mp4').all()
 
-    if not videos:
-        print(f"No {'playlist' if playlist else quality+'p'} video available for {url}")
-        return
+        if not videos:
+            print(f"No {'playlist' if playlist else quality+'p'} video available for {url}")
+            return
 
-    for video in videos:
-        print(f"Downloading: {video.title}...")
-        video.download()
-        print("Download complete!")
+        for video in videos:
+            print(f"Downloading: {video.title}...")
+            video.download()
+            print("Download complete!")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Custom YouTube Downloader")
