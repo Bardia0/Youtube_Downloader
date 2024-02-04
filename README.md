@@ -36,7 +36,7 @@ A simple command-line tool to download YouTube videos or entire playlists.
    https://www.youtube.com/playlist?list=<some-queries>
    ```
    
-## For more information to use command
+## For more information about using the command
 
 use help option as below
 
