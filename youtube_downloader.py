@@ -20,10 +20,15 @@ def download_video(url, quality=None, playlist=False):
         for video in videos:
             print(f"Downloading: {video.title}...")
 
-            with tqdm(total=video.filesize, unit='B', unit_scale=True, unit_divisor=1024) as pbar, open(video.title + '.mp4', 'wb') as f:
-                for chunk in video.stream_to_buffer():
-                    f.write(chunk)
+            with tqdm(total=video.filesize, unit='B', unit_scale=True, unit_divisor=1024) as pbar:
+                stream = video.stream_to_buffer()
+                buffer = bytearray()
+                for chunk in stream:
+                    buffer.extend(chunk)
                     pbar.update(len(chunk))
+
+                with open(video.title + '.mp4', 'wb') as f:
+                    f.write(buffer)
 
             print("Download complete!")
 
