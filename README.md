@@ -32,8 +32,8 @@ use help option as below
    ```
 the options are
 
-   --quality or -q: to Specify video quality (e.g., 720)
+   ```bash--quality``` or ```bash-q```: to Specify video quality (e.g., 720)
    
 and
 
-   --playlist or -p: to download entire YouTube playlist
+   ```bash--playlist``` or ```bash-p```: to download entire YouTube playlist
