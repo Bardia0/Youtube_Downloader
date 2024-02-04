@@ -1,5 +1,6 @@
 import argparse
 import pytube
+from tqdm import tqdm
 
 def download_video(url, quality=None, playlist=False):
     try:
@@ -18,7 +19,10 @@ def download_video(url, quality=None, playlist=False):
 
         for video in videos:
             print(f"Downloading: {video.title}...")
-            video.download()
+
+            with tqdm(total=video.filesize, unit='B', unit_scale=True, unit_divisor=1024) as pbar:
+                video.download(filename=None, output_path='.', callback=lambda chunk, file_handle, bytes_remaining: pbar.update(video.filesize - bytes_remaining))
+
             print("Download complete!")
 
             # Exit the loop in single video mode
