@@ -3,9 +3,13 @@ import os
 from pytube import YouTube
 from pytube.cli import on_progress
 from tqdm import tqdm
+import re
 
 def download_video(url, quality=None, playlist=False):
     try:
+        # Ensure that the URL is enclosed in double quotes to prevent shell misinterpretation
+        url = re.search(r'"(.*?)"', url).group(1) if re.search(r'"(.*?)"', url) else url
+        
         yt = YouTube(url, on_progress_callback=on_progress)
 
         if playlist:
