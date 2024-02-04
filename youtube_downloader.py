@@ -13,7 +13,7 @@ def download_video(url, quality=None, playlist=False):
             videos = list(filter(lambda stream: stream.resolution == quality and 'video' in stream.mime_type, yt.streams.filter(file_extension='mp4')))
 
         if not videos:
-            print(f"No {'playlist' if playlist else quality+'p'} video available for {url}")
+            print(f"No {'playlist' if playlist else quality + 'p' if quality else ''} video available for {url}")
             return
 
         for video in videos:
