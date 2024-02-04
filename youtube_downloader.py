@@ -38,11 +38,24 @@ def download_video(url, quality=None, playlist=False):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+BLUE = '\033[94m'
+RESET = '\033[0m'
+logo = r'''
+\ \/ / __ \/ / / /_  __/ / / / __ )/ ____/                         
+ \  / / / / / / / / / / / / __  / __/                            
+ / / /_/ / /_/ / / / / /_/ / /_/ / /___                            
+/_/\____/\____/_/_/  \____/______________  ___    ____  __________ 
+   / __ \/ __ \ |     / / | / / /   / __ \/   |  / __ \/ ____/ __ \
+  / / / / / / / | /| / /  |/ / /   / / / / /| | / / / / __/ / /_/ /
+ / /_/ / /_/ /| |/ |/ / /|  / /___/ /_/ / ___ |/ /_/ / /___/ _, _/ 
+/_____/\____/ |__/|__/_/ |_/_____/\____/_/  |_/_____/_____/_/ |_|  
+'''
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Custom YouTube Downloader")
     parser.add_argument("url", help="YouTube video URL or playlist URL")
     parser.add_argument("--quality", "-q", help="Video quality (e.g., 720)")
     parser.add_argument("--playlist", "-p", action="store_true", help="Download entire YouTube playlist")
 
+    print(BLUE + logo + RESET)
     args = parser.parse_args()
     download_video(args.url, args.quality, args.playlist)
