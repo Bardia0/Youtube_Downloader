@@ -27,8 +27,9 @@ def download_video(url, quality=None, playlist=False):
         for video_url in videos:
             yt = YouTube(video_url, on_progress_callback=on_progress)
             print(f"Downloading: {yt.title}...")
-
-            video = yt.streams.filter(res=quality, file_extension='mp4').first()
+            
+            video_resolution = f"{quality}p" if quality else None
+            video = yt.streams.filter(res=video_resolution, file_extension='mp4').first()
             if video:
                 video.download(filename=yt.title, output_path=os.getcwd())
                 print("Download complete!")
