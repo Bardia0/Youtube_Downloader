@@ -8,10 +8,10 @@ def download_video(url, quality=None, playlist=False):
 
         if playlist:
             print("Downloading entire playlist...")
-            videos = list(yt.streams.filter(file_extension='mp4'))
+            videos = yt.streams.filter(file_extension='mp4')
         else:
             print("Downloading single video...")
-            videos = list(filter(lambda stream: quality in stream.resolution if quality else 'video' in stream.mime_type, yt.streams.filter(file_extension='mp4')))
+            videos = yt.streams.filter(res=quality, file_extension='mp4')
 
         if not videos:
             print(f"No {'playlist' if playlist else quality + 'p' if quality else ''} video available for {url}")
@@ -21,7 +21,7 @@ def download_video(url, quality=None, playlist=False):
             print(f"Downloading: {video.title}...")
 
             with tqdm(total=video.filesize, unit='B', unit_scale=True, unit_divisor=1024) as pbar, open(video.title + '.mp4', 'wb') as f:
-                for chunk in video.stream:
+                for chunk in video.streams.get_highest_resolution().stream_to_buffer():
                     f.write(chunk)
                     pbar.update(len(chunk))
 
