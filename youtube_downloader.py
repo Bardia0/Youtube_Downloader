@@ -8,14 +8,16 @@ def extract_video_id(url):
     video_id_match = re.search(r'(?:v=|\/)([0-9A-Za-z_-]{11})', url)
     return video_id_match.group(1) if video_id_match else None
 
-def custom_on_progress(chunk, file_handle, bytes_remaining):
-    total_size = file_handle.total_size
-    bytes_downloaded = total_size - bytes_remaining
+
+def custom_on_progress(stream, chunk, remaining_bytes):
+    total_size = stream.filesize
+    bytes_downloaded = total_size - remaining_bytes
     percentage = (bytes_downloaded / total_size) * 100
 
     # Print changes every 0.2% of download
     if percentage % 0.2 < 0.1:
         print(f"Downloaded: {percentage:.1f}%")
+
 
 def download_video(url, quality=None, playlist=False):
     try:
