@@ -1,37 +1,39 @@
 import argparse
 import os
-from pytube import YouTube
+from pytube import YouTube, Playlist
 from pytube.cli import on_progress
 from tqdm import tqdm
 import re
 
+def extract_video_id(url):
+    video_id_match = re.search(r'(?:v=|\/)([0-9A-Za-z_-]{11})', url)
+    return video_id_match.group(1) if video_id_match else None
+
 def download_video(url, quality=None, playlist=False):
     try:
-        # Ensure that the URL is enclosed in double quotes to prevent shell misinterpretation
-        url = re.search(r'"(.*?)"', url).group(1) if re.search(r'"(.*?)"', url) else url
-        
-        yt = YouTube(url, on_progress_callback=on_progress)
-
         if playlist:
             print("Downloading entire playlist...")
-            videos = list(yt.streams.filter(file_extension='mp4'))
+            playlist = Playlist(url)
+            videos = playlist.video_urls
         else:
             print("Downloading single video...")
-            videos = list(yt.streams.filter(res=quality, file_extension='mp4'))
+            video_id = extract_video_id(url)
+            videos = [f"https://youtube.com/watch?v={video_id}"]
 
         if not videos:
             print(f"No {'playlist' if playlist else quality + 'p' if quality else ''} video available for {url}")
             return
 
-        for video in videos:
-            print(f"Downloading: {video.title}...")
+        for video_url in videos:
+            yt = YouTube(video_url, on_progress_callback=on_progress)
+            print(f"Downloading: {yt.title}...")
 
-            video.download(filename=video.title, output_path=os.getcwd())
-            print("Download complete!")
-
-            # Exit the loop in single video mode
-            if not playlist:
-                break
+            video = yt.streams.filter(res=quality, file_extension='mp4').first()
+            if video:
+                video.download(filename=yt.title, output_path=os.getcwd())
+                print("Download complete!")
+            else:
+                print(f"No {'playlist' if playlist else quality + 'p' if quality else ''} video available for {video_url}")
 
     except Exception as e:
         print(f"An error occurred: {e}")
