@@ -20,8 +20,10 @@ def download_video(url, quality=None, playlist=False):
         for video in videos:
             print(f"Downloading: {video.title}...")
 
-            with tqdm(total=video.filesize, unit='B', unit_scale=True, unit_divisor=1024) as pbar:
-                video.download(filename=None, output_path='.', callback=lambda chunk, file_handle, bytes_remaining: pbar.update(video.filesize - bytes_remaining))
+            with tqdm(total=video.filesize, unit='B', unit_scale=True, unit_divisor=1024) as pbar, open(video.title + '.mp4', 'wb') as f:
+                for chunk in video.stream:
+                    f.write(chunk)
+                    pbar.update(len(chunk))
 
             print("Download complete!")
 
