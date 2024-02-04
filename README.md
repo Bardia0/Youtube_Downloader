@@ -21,12 +21,17 @@ A simple command-line tool to download YouTube videos or entire playlists.
 ## How to download an entire YouTube playlist
 
    ```bash
-   python3 youtube_downloader.py --playlist <youtube-playlist-url>
+   python3 youtube_downloader.py --playlist "<youtube-playlist-url>"
    ```
-   the playlist url should be as below
+   the playlist url should be something like below
    ```
-   https://youtube.com/playlist?<some-queries>
+   https://youtube.com/playlist?list=<some-queries>
    ```
+   or
+   ```
+   https://www.youtube.com/playlist?list=<some-queries>
+   ```
+   
 ## For more information to use command
 
 use help option as below
