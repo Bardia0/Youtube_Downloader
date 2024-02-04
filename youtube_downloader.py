@@ -1,17 +1,19 @@
 import argparse
-import pytube
+import os
+from pytube import YouTube
+from pytube.cli import on_progress
 from tqdm import tqdm
 
 def download_video(url, quality=None, playlist=False):
     try:
-        yt = pytube.YouTube(url)
+        yt = YouTube(url, on_progress_callback=on_progress)
 
         if playlist:
             print("Downloading entire playlist...")
-            videos = yt.streams.filter(file_extension='mp4')
+            videos = yt.streams.filter(file_extension='mp4').all()
         else:
             print("Downloading single video...")
-            videos = yt.streams.filter(res=quality, file_extension='mp4')
+            videos = yt.streams.filter(res=quality, file_extension='mp4').all()
 
         if not videos:
             print(f"No {'playlist' if playlist else quality + 'p' if quality else ''} video available for {url}")
@@ -20,15 +22,7 @@ def download_video(url, quality=None, playlist=False):
         for video in videos:
             print(f"Downloading: {video.title}...")
 
-            with tqdm(total=video.filesize, unit='B', unit_scale=True, unit_divisor=1024) as pbar:
-                buffer = bytearray()
-                for chunk in video.stream_to_buffer():
-                    buffer.extend(chunk)
-                    pbar.update(len(chunk))
-
-                with open(video.title + '.mp4', 'wb') as f:
-                    f.write(buffer)
-
+            video.download(filename=video.title, output_path=os.getcwd())
             print("Download complete!")
 
             # Exit the loop in single video mode
