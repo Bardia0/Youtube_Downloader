@@ -25,7 +25,7 @@ A simple command-line tool to download YouTube videos or entire playlists.
    ```
    the playlist url should be as below
    ```
-   https://youtube.com/playlist?
+   https://youtube.com/playlist?<some-queries>
    ```
 ## For more information to use command
 
