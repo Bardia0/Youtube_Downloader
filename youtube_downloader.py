@@ -10,10 +10,10 @@ def download_video(url, quality=None, playlist=False):
 
         if playlist:
             print("Downloading entire playlist...")
-            videos = yt.streams.filter(file_extension='mp4').all()
+            videos = list(yt.streams.filter(file_extension='mp4'))
         else:
             print("Downloading single video...")
-            videos = yt.streams.filter(res=quality, file_extension='mp4').all()
+            videos = list(yt.streams.filter(res=quality, file_extension='mp4'))
 
         if not videos:
             print(f"No {'playlist' if playlist else quality + 'p' if quality else ''} video available for {url}")
